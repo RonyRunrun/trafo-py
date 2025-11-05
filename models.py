@@ -34,3 +34,7 @@ class Trafo(Base):
     phasa = Column(String, nullable=False)
     longitude = Column(Float, nullable=False)
     latitude = Column(Float, nullable=False)
+    owner_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+
+    owner = relationship("User", back_populates="trafo")
+    

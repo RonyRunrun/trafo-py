@@ -4,7 +4,7 @@ import models, schemas
 from database import engine, SessionLocal
 from auth import router as auth_router, get_current_user
 
-models.Base.metadata.create_all(bind=engine)
+models.Base.metadata.create_all(bind=engine,checkfirst=True)
 app = FastAPI(title="FastAPI CRUD with JWT + Filters")
 app.include_router(auth_router)
 
@@ -80,3 +80,38 @@ def create_trafo(trafo: schemas.TrafoCreate, db: Session = Depends(get_db), curr
     db.commit()
     db.refresh(new_trafo)
     return new_trafo
+
+# READ ALL
+@app.get("/trafo/", response_model=list[schemas.Trafo])
+def read_all_trafo(db: Session = Depends(get_db), current_user=Depends(get_current_user)):
+    return db.query(models.Trafo).filter(models.Trafo.owner_id == current_user.id).all()
+
+# READ BY ID
+@app.get("/trafo/{trafo_id}", response_model=schemas.Trafo)
+def read_trafo(trafo_id: int, db: Session = Depends(get_db), current_user=Depends(get_current_user)):
+    trafo = db.query(models.Trafo).filter(models.Trafo.id == trafo_id, models.Trafo.owner_id == current_user.id).first()
+    if not trafo:
+        raise HTTPException(status_code=404, detail="Trafo not found")
+    return trafo
+
+# UPDATE BY ID
+@app.put("/trafo/{trafo_id}", response_model=schemas.Trafo)
+def update_trafo(trafo_id: int, trafo: schemas.TrafoCreate, db: Session = Depends(get_db), current_user=Depends(get_current_user)):
+    db_trafo = db.query(models.Trafo).filter(models.Trafo.id == trafo_id, models.Trafo.owner_id == current_user.id).first()
+    if not db_trafo:
+        raise HTTPException(status_code=404, detail="Trafo not found")
+    for key, value in trafo.dict().items():
+        setattr(db_trafo, key, value)
+    db.commit()
+    db.refresh(db_trafo)
+    return db_trafo
+
+# DELETE BY ID
+@app.delete("/trafo/{trafo_id}")
+def delete_trafo_by_id(trafo_id: int, db: Session = Depends(get_db), current_user=Depends(get_current_user)):
+    db_trafo = db.query(models.Trafo).filter(models.Trafo.id == trafo_id, models.Trafo.owner_id == current_user.id).first()
+    if not db_trafo:
+        raise HTTPException(status_code=404, detail="Trafo not found")
+    db.delete(db_trafo)
+    db.commit()
+    return {"message": f"Trafo {trafo_id} deleted"}
