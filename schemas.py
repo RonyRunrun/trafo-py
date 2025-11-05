@@ -26,3 +26,22 @@ class Item(ItemBase):
     owner_id: int
     class Config:
         from_attributes = True
+# --- TRAFO ---
+class TrafoBase(BaseModel):
+    name: str
+    type: str
+    brand: str
+    kapasitas: int
+    voltase: int
+    current: int
+    phasa: str
+    longitude: float
+    latitude: float
+
+class TrafoCreate(TrafoBase):
+    pass
+
+class Trafo(TrafoBase):
+    id: int
+    class Config:
+        from_attributes = True

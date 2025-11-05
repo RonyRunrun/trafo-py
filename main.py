@@ -16,6 +16,9 @@ def get_db():
     finally:
         db.close()
 
+# Create table 'trafo' when not exist
+models.Base.metadata.create_all(bind=engine, tables=[models.Trafo.__table__])
+
 # CREATE
 @app.post("/items/", response_model=schemas.Item)
 def create_item(item: schemas.ItemCreate, db: Session = Depends(get_db), current_user=Depends(get_current_user)):
@@ -68,3 +71,12 @@ def delete_item(item_id: int, db: Session = Depends(get_db), current_user=Depend
     db.delete(db_item)
     db.commit()
     return {"message": f"Item {item_id} deleted"}
+
+# CREATE
+@app.post("/trafo/", response_model=schemas.Trafo)
+def create_trafo(trafo: schemas.TrafoCreate, db: Session = Depends(get_db), current_user=Depends(get_current_user)):
+    new_trafo = models.Trafo(**trafo.dict(), owner_id=current_user.id)
+    db.add(new_trafo)
+    db.commit()
+    db.refresh(new_trafo)
+    return new_trafo

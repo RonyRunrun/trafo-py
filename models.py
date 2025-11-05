@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Float, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from database import Base
 
@@ -20,3 +20,17 @@ class Item(Base):
     owner_id = Column(Integer, ForeignKey("users.id"))
 
     owner = relationship("User", back_populates="items")
+
+class Trafo(Base):
+    __tablename__ = "trafo"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, index=True)
+    type = Column(String, nullable=False)
+    brand = Column(String, nullable=False)
+    kapasitas = Column(Integer, nullable=False)
+    voltase = Column(Integer, nullable=False)
+    current = Column(Integer, nullable=False)
+    phasa = Column(String, nullable=False)
+    longitude = Column(Float, nullable=False)
+    latitude = Column(Float, nullable=False)
