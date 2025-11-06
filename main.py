@@ -148,3 +148,22 @@ def delete_trafo_by_id(trafo_id: int, db: Session = Depends(get_db), current_use
     db.delete(db_trafo)
     db.commit()
     return {"message": f"Trafo {trafo_id} deleted"}
+
+# CREATE GROUP TRAFO
+@app.post("/group-trafo/", response_model=schemas.GroupTrafo)
+def create_group_trafo(group_trafo: schemas.GroupTrafoCreate, db: Session = Depends(get_db), current_user=Depends(get_current_user)):
+    new_group_trafo = models.GroupTrafo(**group_trafo.dict(), owner_id=current_user.id)
+    db.add(new_group_trafo)
+    db.commit()
+    db.refresh(new_group_trafo)
+    return new_group_trafo
+
+# DELETE GROUP TRAFO BY ID
+@app.delete("/group-trafo/{group_trafo_id}")
+def delete_group_trafo_by_id(group_trafo_id: int, db: Session = Depends(get_db), current_user=Depends(get_current_user)):
+    db_group_trafo = db.query(models.GroupTrafo).filter(models.GroupTrafo.id == group_trafo_id, models.GroupTrafo.owner_id == current_user.id).first()
+    if not db_group_trafo:
+        raise HTTPException(status_code=404, detail="Group Trafo not found")
+    db.delete(db_group_trafo)
+    db.commit()
+    return {"message": f"Group Trafo {group_trafo_id} deleted"}

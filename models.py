@@ -36,6 +36,13 @@ class Trafo(Base):
     longitude = Column(Float, nullable=False)
     latitude = Column(Float, nullable=False)
     owner_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    grupid = Column(Integer, ForeignKey("group_trafo.id"), nullable=True)
 
     owner = relationship("User", back_populates="trafo")
-    
+    group = relationship("GroupTrafo", back_populates="trafo")
+class GroupTrafo(Base):
+    __tablename__ = "group_trafo"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, index=True)
+    kodegrup = Column(String, nullable=False)

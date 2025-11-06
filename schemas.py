@@ -45,3 +45,15 @@ class Trafo(TrafoBase):
     id: int
     class Config:
         from_attributes = True
+# --- GROUP TRAFO ---
+class GroupTrafoBase(BaseModel):
+    name: str
+    kodegrup: str
+
+class GroupTrafoCreate(GroupTrafoBase):
+    pass
+
+class GroupTrafo(GroupTrafoBase):
+    id: int
+    class Config:
+        from_attributes = True
