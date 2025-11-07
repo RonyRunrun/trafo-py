@@ -13,21 +13,9 @@ class User(UserBase):
     class Config:
         from_attributes = True
 
-# --- ITEM ---
-class ItemBase(BaseModel):
-    name: str
-    description: Optional[str] = None
-
-class ItemCreate(ItemBase):
-    pass
-
-class Item(ItemBase):
-    id: int
-    owner_id: int
-    class Config:
-        from_attributes = True
 # --- TRAFO ---
 class TrafoBase(BaseModel):
+    group_id: int
     name: str
     type: str
     brand: str
@@ -45,6 +33,7 @@ class Trafo(TrafoBase):
     id: int
     class Config:
         from_attributes = True
+        
 # --- GROUP TRAFO ---
 class GroupTrafoBase(BaseModel):
     name: str
@@ -57,6 +46,7 @@ class GroupTrafo(GroupTrafoBase):
     id: int
     class Config:
         from_attributes = True
+        
 # --- HASIL KALKULASI ---
 class HasilKalkulasiBase(BaseModel):
     vr: float
@@ -89,3 +79,8 @@ class HasilKalkulasi(HasilKalkulasiBase):
     id: int
     class Config:
         from_attributes = True
+
+# --- Combobox ---
+class Combobox(BaseModel):
+    id: int
+    name: str
