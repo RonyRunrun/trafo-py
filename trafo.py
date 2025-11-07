@@ -44,7 +44,6 @@ def read_all_trafo(q: str | None = Query(None, description="Cari berdasarkan nam
     totalPage = math.ceil(total / size) if total > 0 else 0
     list_of_trafo_models = base_query.offset(page * size).limit(size).all()
     data_for_response = [schemas.Trafo.model_validate(trafo).model_dump() for trafo in list_of_trafo_models]    
-    data_for_response = [schemas.Trafo.model_validate(trafo).model_dump() for trafo in list_of_trafo_models]
     return response_paginate(data_for_response, page, size, total, totalPage)
 
 # READ BY ID
