@@ -49,3 +49,33 @@ class GroupTrafo(Base):
     kodegrup = Column(String, nullable=False)
     
     trafo = relationship("Trafo", back_populates="group")
+ 
+class HasilKalkulasi(Base):
+    __tablename__ = "hasil_kalkulasi"
+
+    id = Column(Integer, primary_key=True, index=True)
+    vr = Column(Float, nullable=False)
+    vs = Column(Float, nullable=False)
+    vt = Column(Float, nullable=False)
+    ir = Column(Float, nullable=False)
+    is_ = Column(Float, nullable=False)
+    it = Column(Float, nullable=False)
+    cosphi = Column(Float, nullable=False)
+    kvar = Column(Float, nullable=False)
+    kvas = Column(Float, nullable=False)
+    kvat = Column(Float, nullable=False)
+    kwr = Column(Float, nullable=False)
+    kws = Column(Float, nullable=False)
+    kwt = Column(Float, nullable=False)
+    kvar_r = Column(Float, nullable=False)
+    kvar_s = Column(Float, nullable=False)
+    kvar_t = Column(Float, nullable=False)
+    total_kva = Column(Float, nullable=False)
+    total_kw = Column(Float, nullable=False)
+    total_kvar = Column(Float, nullable=False)
+    sisa_kapasitas = Column(Float, nullable=False)
+    tanggal = Column(String, nullable=False)
+    idtrafo = Column(Integer, ForeignKey("trafo.id"), nullable=False)
+    
+    trafo = relationship("Trafo", back_populates="hasil_kalkulasi")
+    

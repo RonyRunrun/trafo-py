@@ -57,3 +57,35 @@ class GroupTrafo(GroupTrafoBase):
     id: int
     class Config:
         from_attributes = True
+# --- HASIL KALKULASI ---
+class HasilKalkulasiBase(BaseModel):
+    vr: float
+    vs: float
+    vt: float
+    ir: float
+    is_: float
+    it: float
+    cosphi: float
+    kvar: float
+    kvas: float
+    kvat: float
+    kwr: float
+    kws: float
+    kwt: float
+    kvar_r: float
+    kvar_s: float
+    kvar_t: float
+    total_kva: float
+    total_kw: float
+    total_kvar: float
+    sisa_kapasitas: float
+    tanggal: str
+    idtrafo: int
+
+class HasilKalkulasiCreate(HasilKalkulasiBase):
+    pass
+
+class HasilKalkulasi(HasilKalkulasiBase):
+    id: int
+    class Config:
+        from_attributes = True
