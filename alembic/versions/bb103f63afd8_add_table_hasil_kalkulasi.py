@@ -1,8 +1,8 @@
-"""add table hasil_ka
+"""add table hasil_kalkulasi
 
-Revision ID: 1b72e832a8d9
-Revises: 07b0df20f162
-Create Date: 2025-11-07 22:53:44.289320
+Revision ID: bb103f63afd8
+Revises: 91fe1ba117eb
+Create Date: 2025-11-08 06:44:34.400690
 
 """
 from typing import Sequence, Union
@@ -12,8 +12,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '1b72e832a8d9'
-down_revision: Union[str, Sequence[str], None] = '07b0df20f162'
+revision: str = 'bb103f63afd8'
+down_revision: Union[str, Sequence[str], None] = '91fe1ba117eb'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
@@ -52,7 +52,7 @@ def upgrade() -> None:
         batch_op.create_index(batch_op.f('ix_hasil_kalkulasi_id'), ['id'], unique=False)
 
     with op.batch_alter_table('trafo', schema=None) as batch_op:
-        batch_op.create_foreign_key(None, 'group_trafo', ['grupid'], ['id'])
+        batch_op.create_foreign_key(None, 'group_trafo', ['group_id'], ['id'])
 
     # ### end Alembic commands ###
 
